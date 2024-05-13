@@ -1,0 +1,22 @@
+server:
+  port: ${SERVER_PORT:8080}
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  max-http-request-header-size: 128KB
+  tomcat:
+    threads:
+      min-spare: 0
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: YACGP-BCER
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER_ADDRESS:localhost}:${KAFKA_SERVER_PORT:9092}
+    producer:
+      client-id: "${spring.application.name}-producer"
+      value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
+    consumer:
+      group-id: "${spring.application.name}"
+      client-id: "${spring.application.name}-consumer"
+      value-deserializer: "org.apache.kafka.common.serialization.ByteArrayDeserializer"
